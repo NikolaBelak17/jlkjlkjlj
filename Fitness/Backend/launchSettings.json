@@ -4,7 +4,9 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "trainerservice.api": "StartDebugging"
+        "trainerservice.api": "StartDebugging",
+        "reviewservice.api": "StartDebugging",
+        "reviewservice.grpc": "StartDebugging"
       }
     }
   }

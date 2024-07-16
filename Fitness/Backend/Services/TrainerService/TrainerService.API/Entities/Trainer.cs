@@ -12,23 +12,10 @@ namespace TrainerService.API.Entities
         public string ContactPhone { get; set; }
         public string Bio { get; set; }
         public List<TrainingType> TrainingTypes { get; set; } = new List<TrainingType>();
+        public List<ReviewType> Reviews { get; set; } = new List<ReviewType>();
+        [BsonIgnore]
+        public double AverageRating => Reviews.Any() ? Reviews.Average(r => r.Rating) : 0.0;
 
-        /*public List<Review> Reviews {get; set;}
-        public decimal Rating 
-        { get
-            {
-            	if (Reviews==null || !Reviews.Any())
-            		return 0;
-            		
-                int totalRating = 0;
-                foreach(var review in Reviews)
-                {
-                    totalRating+=review.Rating;
-                }
-                return (decimal) totalRating/Reviews.Count;
-                
-            } 
-        }*/
 
 
     }

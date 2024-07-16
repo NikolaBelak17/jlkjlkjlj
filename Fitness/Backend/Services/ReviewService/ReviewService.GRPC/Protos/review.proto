@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "ReviewService.GRPC.Protos";
+
+service ReviewProtoService {
+    rpc GetReviews (GetReviewsRequest) returns (GetReviewsResponse);
+}
+
+
+message GetReviewsRequest {
+    string trainerName = 1;
+}
+
+
+
+message GetReviewsResponse {
+    message ReviewReply {
+    int32 id = 1;
+    string trainerName = 2;
+    string comment = 3;
+    int32 rating = 4;
+    }
+
+    repeated ReviewReply reviews = 1;
+}

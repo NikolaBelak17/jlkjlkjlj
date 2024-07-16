@@ -3,9 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainerService.API", "Services\TrainerService\TrainerService.API\TrainerService.API.csproj", "{0FE25075-01AE-4650-9CDE-F3657E9D49BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrainerService.API", "Services\TrainerService\TrainerService.API\TrainerService.API.csproj", "{0FE25075-01AE-4650-9CDE-F3657E9D49BC}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{38B61A4C-107F-45C4-96E5-6165CE2ABE36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReviewService", "ReviewService", "{9C34116F-A2EF-4956-9334-9C0A70508112}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrainerService", "TrainerService", "{18F41D5C-307D-4EDB-B4E1-11D1B7256AEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{907BB731-B5F6-4737-B7B0-85A6A21299E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Common", "Services\ReviewService\ReviewService.Common\ReviewService.Common.csproj", "{D5EEA312-F9D5-4AF5-A2F2-4D8F0225EBA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.API", "Services\ReviewService\ReviewService.API\ReviewService.API.csproj", "{1BEF3EB7-10AC-4579-92D4-7F38AAC8E46E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.GRPC", "Services\ReviewService\ReviewService.GRPC\ReviewService.GRPC.csproj", "{4722D845-02FA-4FD9-946D-AF4C2538F7BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +33,29 @@ Global
 		{38B61A4C-107F-45C4-96E5-6165CE2ABE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38B61A4C-107F-45C4-96E5-6165CE2ABE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38B61A4C-107F-45C4-96E5-6165CE2ABE36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5EEA312-F9D5-4AF5-A2F2-4D8F0225EBA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5EEA312-F9D5-4AF5-A2F2-4D8F0225EBA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5EEA312-F9D5-4AF5-A2F2-4D8F0225EBA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5EEA312-F9D5-4AF5-A2F2-4D8F0225EBA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BEF3EB7-10AC-4579-92D4-7F38AAC8E46E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEF3EB7-10AC-4579-92D4-7F38AAC8E46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEF3EB7-10AC-4579-92D4-7F38AAC8E46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEF3EB7-10AC-4579-92D4-7F38AAC8E46E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4722D845-02FA-4FD9-946D-AF4C2538F7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4722D845-02FA-4FD9-946D-AF4C2538F7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4722D845-02FA-4FD9-946D-AF4C2538F7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4722D845-02FA-4FD9-946D-AF4C2538F7BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0FE25075-01AE-4650-9CDE-F3657E9D49BC} = {18F41D5C-307D-4EDB-B4E1-11D1B7256AEB}
+		{9C34116F-A2EF-4956-9334-9C0A70508112} = {907BB731-B5F6-4737-B7B0-85A6A21299E5}
+		{18F41D5C-307D-4EDB-B4E1-11D1B7256AEB} = {907BB731-B5F6-4737-B7B0-85A6A21299E5}
+		{D5EEA312-F9D5-4AF5-A2F2-4D8F0225EBA3} = {9C34116F-A2EF-4956-9334-9C0A70508112}
+		{1BEF3EB7-10AC-4579-92D4-7F38AAC8E46E} = {9C34116F-A2EF-4956-9334-9C0A70508112}
+		{4722D845-02FA-4FD9-946D-AF4C2538F7BE} = {9C34116F-A2EF-4956-9334-9C0A70508112}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC29E298-33E0-4D11-8191-6D2E72727175}

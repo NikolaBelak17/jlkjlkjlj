@@ -1,6 +1,8 @@
 services:
   trainerdb:
     image: mongo
+  reviewdb:
+    image: mongo
 
   trainerservice.api:
     image: ${DOCKER_REGISTRY-}trainerserviceapi
@@ -8,5 +10,18 @@ services:
       context: .
       dockerfile: Services/TrainerService/TrainerService.API/Dockerfile
 
+  reviewservice.api:
+    image: ${DOCKER_REGISTRY-}reviewserviceapi
+    build:
+      context: .
+      dockerfile: Services/ReviewService/ReviewService.API/Dockerfile
+
+  reviewservice.grpc:
+    image: ${DOCKER_REGISTRY-}reviewservicegrpc
+    build:
+      context: .
+      dockerfile: Services/ReviewService/ReviewService.GRPC/Dockerfile
+
 volumes:
-  mongo_data:    
+  trainermongo_data:
+  reviewmongo_data:

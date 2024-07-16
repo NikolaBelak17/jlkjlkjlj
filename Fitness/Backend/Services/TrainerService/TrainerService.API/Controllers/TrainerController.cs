@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using TrainerService.API.Entities;
+using TrainerService.API.GrpcServices;
 using TrainerService.API.Repositories;
 
 namespace TrainerService.API.Controllers
@@ -9,10 +11,14 @@ namespace TrainerService.API.Controllers
     public class TrainerController : ControllerBase
     {
         private readonly ITrainerRepository _repository;
+        private readonly ReviewGrpcService _reviewGrpcService;
+        private readonly IMapper _mapper;
 
-        public TrainerController(ITrainerRepository repository)
+        public TrainerController(ITrainerRepository repository, ReviewGrpcService reviewGrpcService, IMapper mapper)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _reviewGrpcService = reviewGrpcService ?? throw new ArgumentNullException(nameof(reviewGrpcService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
@@ -20,6 +26,12 @@ namespace TrainerService.API.Controllers
         public async Task<ActionResult<IEnumerable<Trainer>>> GetTrainers()
         {
             var trainers = await _repository.GetTrainers();
+
+            foreach (var trainer in trainers)
+            {
+                var reviews = await _reviewGrpcService.GetReviews(trainer.FullName);
+                trainer.Reviews = _mapper.Map<List<ReviewType>>(reviews.Reviews);
+            }
             return Ok(trainers);
         }
 
@@ -35,6 +47,8 @@ namespace TrainerService.API.Controllers
             }
             else
             {
+                var reviews = await _reviewGrpcService.GetReviews(trainer.FullName);
+                trainer.Reviews = _mapper.Map<List<ReviewType>>(reviews.Reviews);
                 return Ok(trainer);
             }
         }
@@ -54,6 +68,12 @@ namespace TrainerService.API.Controllers
         public async Task<ActionResult<IEnumerable<Trainer>>> GetTrainersByTrainingType(string trainingType)
         {
             var trainers = await _repository.GetTrainersByTrainingType(trainingType);
+            foreach (var trainer in trainers)
+            {
+                var reviews = await _reviewGrpcService.GetReviews(trainer.FullName);
+                trainer.Reviews = _mapper.Map<List<ReviewType>>(reviews.Reviews);
+
+            }
             return Ok(trainers);
         }
 

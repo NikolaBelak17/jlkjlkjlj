@@ -5,14 +5,44 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongo_data:/data/db
+      - trainermongo_data:/data/db
+
+  reviewdb:
+    container_name: reviewdb
+    restart: always
+    ports:
+      - 27018:27017
+    volumes:
+      - reviewmongo_data:/data/db
 
   trainerservice.api:
-    container_name: trainservice.api
+    container_name: trainerservice.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=mongodb://trainerdb:27017"
+      - "GrpcSettings:ReviewUrl=http://host.docker.internal:8002"
     depends_on:
       - trainerdb
+      - reviewservice.grpc
     ports:
       - "8000:8080"
+
+  reviewservice.api:
+    container_name: reviewservice.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://reviewdb:27017"
+    depends_on:
+      -  reviewdb
+    ports:
+      - "8001:8080"
+
+  reviewservice.grpc:
+    container_name: reviewservice.grpc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://reviewdb:27017"
+    depends_on:
+      -  reviewdb
+    ports:
+      - "8002:8080"
