@@ -44,6 +44,9 @@
           <CTableDataCell class="test">{{ type.duration }}</CTableDataCell>
           <CTableDataCell class="test">{{ type.difficulty }}</CTableDataCell>
           <CTableDataCell class="test action-column">
+            <CButton color="light" class="px-3" style="margin: 0 10px;" v-on:click="toggleEditTrainingType(type)">
+              <CIcon icon="cil-pencil" />
+            </CButton>
             <CButton color="light" class="px-3" v-on:click="onDelete(type.id)">
               <CIcon icon="cil-trash" />
             </CButton>
@@ -53,30 +56,47 @@
     </CTable>
     <GenericModal :modalData="modalData" />
 
+    <div v-if="editTrainingType" class="edit-training-type-section">
+      <h3>Edit Training Type</h3>
+      <CFormLabel for="editTrainingTypeDuration" style="display: block;">Duration</CFormLabel>
+      <CInputGroup style="width:70%; margin-bottom: 10px !important">
+        <CFormInput id="editTrainingTypeDuration" placeholder="Update training type duration" v-model="trainingTypeToEdit.duration" />
+      </CInputGroup>
+      <CFormLabel for="editTrainingTypeDifficulty" style="display: block;">Difficulty</CFormLabel>
+      <CInputGroup style="width:70%; margin-bottom: 10px !important">
+        <CFormSelect id="editTrainingTypeDifficulty" v-model="trainingTypeToEdit.difficulty">
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </CFormSelect>
+      </CInputGroup>
+      <CButton class="spacing" color="dark" @click="updateTrainingType">Save Changes</CButton>
+    </div>
+
     <div class="training-type-section">
       <CButton class="spacing" color="dark" @click="toggleAddTrainingType">Add Training Type</CButton>
       <div v-if="addTrainingType">
-          <CFormLabel for="trainingTypeId" style="display: block;">Id</CFormLabel>
-          <CInputGroup style="width:70%; margin-bottom: 10px !important">
-              <CFormInput id="trainingTypeId" placeholder="Please insert training type id" v-model="trainingType.id" />
-          </CInputGroup>
-          <CFormLabel for="trainingTypeName" style="display: block;">Name</CFormLabel>
-          <CInputGroup style="width:70%; margin-bottom: 10px !important">
-              <CFormInput id="trainingTypeName" placeholder="Please insert training type name" v-model="trainingType.name" />
-          </CInputGroup>
-          <CFormLabel for="trainingTypeDuration" style="display: block;">Duration</CFormLabel>
-          <CInputGroup style="width:70%; margin-bottom: 10px !important">
-              <CFormInput id="trainingTypeDuration" placeholder="Please insert training type duration" v-model="trainingType.duration" />
-          </CInputGroup>
-          <CFormLabel for="trainingTypeDifficulty" style="display: block;">Difficulty</CFormLabel>
-          <CInputGroup style="width:70%; margin-bottom: 10px !important">
-              <CFormInput id="trainingTypeDifficulty" placeholder="Please insert training type difficulty" v-model="trainingType.difficulty" />
-          </CInputGroup>
-          <CButton class="spacing" color="dark" @click="addType">Add</CButton>
+        <CFormLabel for="trainingTypeId" style="display: block;">Id</CFormLabel>
+        <CInputGroup style="width:70%; margin-bottom: 10px !important">
+          <CFormInput id="trainingTypeId" placeholder="Please insert training type id" v-model="trainingType.id" />
+        </CInputGroup>
+        <CFormLabel for="trainingTypeName" style="display: block;">Name</CFormLabel>
+        <CInputGroup style="width:70%; margin-bottom: 10px !important">
+          <CFormInput id="trainingTypeName" placeholder="Please insert training type name" v-model="trainingType.name" />
+        </CInputGroup>
+        <CFormLabel for="trainingTypeDuration" style="display: block;">Duration</CFormLabel>
+        <CInputGroup style="width:70%; margin-bottom: 10px !important">
+          <CFormInput id="trainingTypeDuration" placeholder="Please insert training type duration" v-model="trainingType.duration" />
+        </CInputGroup>
+        <CFormLabel for="trainingTypeDifficulty" style="display: block;">Difficulty</CFormLabel>
+        <CInputGroup style="width:70%; margin-bottom: 10px !important">
+          <CFormInput id="trainingTypeDifficulty" placeholder="Please insert training type difficulty" v-model="trainingType.difficulty" />
+        </CInputGroup>
+        <CButton class="spacing" color="dark" @click="addType">Add</CButton>
       </div>
     </div>
 
-    <CButton class="spacing" color="dark" @click="toggleReviews">Show Reviews</CButton>
+    <CButton class="spacing" color="dark" @click="toggleReviews">{{reviewsButtonText}}</CButton>
     <div v-if="showReviews" class="reviews-section">
       <p><strong>Average Rating:</strong> {{ trainer.averageRating }}</p>
       <ul>
@@ -114,6 +134,13 @@
           duration: '',
           difficulty: ''
         },
+        editTrainingType: false,
+        trainingTypeToEdit: {
+          id: '',
+          name: '',
+          duration: '',
+          difficulty: ''
+        },
         modalData: {
           isVisible: false,
           title: "Confirm delete",
@@ -123,12 +150,21 @@
         }
       };
     },
+    computed: {
+      reviewsButtonText() {
+        return this.showReviews ? 'Hide Reviews' : 'Show Reviews';
+
+      }
+    },
     methods: {
       fetchTrainer() {
         const id = this.$route.params.id;
         dataServices.methods.get_trainer_by_id(id).then((response) => {
           this.trainer = response.data;
         });
+      },
+      toggleReviews(){
+         this.showReviews = !this.showReviews;
       },
       toggleEditBio() {
         this.editBio = !this.editBio;
@@ -177,6 +213,23 @@
             this.editPhone = false;
           });
         });
+      },
+      toggleEditTrainingType(type) {
+        this.editTrainingType = true;
+        this.trainingTypeToEdit = { ...type };
+      },
+      updateTrainingType() {
+        const updatedTrainingTypes = this.trainer.trainingTypes.map(type => 
+          type.id === this.trainingTypeToEdit.id ? this.trainingTypeToEdit : type
+        );
+        const trainer = { ...this.trainer, trainingTypes: updatedTrainingTypes };
+
+        dataServices.methods.upt_trainer(trainer.id, trainer).then(() => {
+          this.editTrainingType = false;
+          this.trainingTypeToEdit = { id: '', name: '', duration: '', difficulty: '' };
+          this.fetchTrainer();
+         });
+
       },
       toggleAddTrainingType() {
         this.addTrainingType = !this.addTrainingType;
@@ -274,7 +327,7 @@
   }
 
   .action-column {
-    width: 120px;
+    width: 140px;
   }
 </style>
 

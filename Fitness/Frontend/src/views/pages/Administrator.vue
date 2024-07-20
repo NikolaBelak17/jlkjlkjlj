@@ -14,7 +14,7 @@
           <CTableHeaderCell class="test">{{ headers.trainingType }}</CTableHeaderCell>
           <CTableHeaderCell class="test">{{ headers.rating }}</CTableHeaderCell>
           <CTableHeaderCell class="test">Bio</CTableHeaderCell>
-          <CTableHeaderCell class="test">Actions</CTableHeaderCell>
+          <CTableHeaderCell class="test action-column">Actions</CTableHeaderCell>
         </CTableRow>
       </CTableHead>
       <CTableBody>
@@ -147,5 +147,8 @@ export default {
     border: 1px solid black;
     text-align: center;
     cursor: pointer; /* Add cursor pointer to indicate clickable */
+  }
+  .action-column {
+    width: 140px;
   }
 </style>
