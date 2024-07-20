@@ -16,9 +16,25 @@ const routes = [
           import(/* webpackChunkName: "dashboard" */ '@/views/pages/InfusionsCrud.vue')
       },
       {
+        path: '/administrator/:id',
+        name: 'Administrator Operations',
+        component: () =>
+          import(/* webpackChunkName: "dashboard" */ '@/views/pages/AdministratorCRUD.vue')
+      },
+      {
         path: '/infusions',
         name: 'Infusions',
         component: () => import('@/views/pages/Infusions.vue'),
+      },
+      {
+        path: '/administrator',
+        name: 'Administrators',
+        component: () => import('@/views/pages/Administrator.vue'),
+      },
+      {
+        path: '/trainer/:id',
+        name: 'Trainer',
+        component: () => import('@/views/pages/Trainer.vue'),
       },
       {
         path: '/medicines/:id',
