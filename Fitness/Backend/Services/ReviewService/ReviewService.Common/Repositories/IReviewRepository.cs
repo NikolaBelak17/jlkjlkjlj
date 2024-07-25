@@ -12,6 +12,6 @@ namespace ReviewService.Common.Repositories
         Task<IEnumerable<ReviewDTO>> GetReviews(string trainerName);
         Task CreateReview(CreateReviewDTO review);
         Task<bool> UpdateReview(UpdateReviewDTO review);
-        Task<bool> DeleteReview(string trainerName);
+        Task<bool> DeleteReview(string reviewId);
     }
 }

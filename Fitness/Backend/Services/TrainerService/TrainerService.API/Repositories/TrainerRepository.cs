@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Net.Http.Headers;
 using TrainerService.API.Data;
 using TrainerService.API.Entities;
@@ -29,10 +30,6 @@ namespace TrainerService.API.Repositories
             return await _context.Trainers.Find(p => p.TrainingTypes.Any(pp => pp.Name == trainingTypeName)).ToListAsync();
         }
 
-        /*public async Task<IEnumerable<Trainer>> GetTrainersByRaiting(int minRating)
-        {
-            return await _context.Trainers.Find(p => p.Rating >= minRating).ToListAsync();
-        }*/
 
         public async Task CreateTrainer(Trainer trainer)
         {

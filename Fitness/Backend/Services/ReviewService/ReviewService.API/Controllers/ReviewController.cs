@@ -14,7 +14,7 @@ namespace ReviewService.API.Controllers
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        [HttpGet("trainerName")]
+        [HttpGet("trainerName", Name ="GetReviews")]
         [ProducesResponseType(typeof(ReviewDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetReviews(string trainerName)
@@ -34,7 +34,7 @@ namespace ReviewService.API.Controllers
             await _repository.CreateReview(reviewDTO);
             var reviews = await _repository.GetReviews(reviewDTO.TrainerName);
             var newReview = reviews.FirstOrDefault(r => r.Comment == reviewDTO.Comment);
-            return CreatedAtRoute("GetDiscount", new { trainerName = reviewDTO.TrainerName }, newReview);
+            return CreatedAtRoute("GetReviews", new { trainerName = reviewDTO.TrainerName }, newReview);
         }
 
         [HttpPut]
@@ -44,11 +44,11 @@ namespace ReviewService.API.Controllers
             return Ok(await _repository.UpdateReview(review));
         }
 
-        [HttpDelete("{trainerName}", Name = "DeleteReview")]
+        [HttpDelete(Name = "DeleteReview")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<ActionResult<bool>> DeleteReview(string trainerName)
+        public async Task<ActionResult<bool>> DeleteReview(string reviewId)
         {
-            return Ok(await _repository.DeleteReview(trainerName));
+            return Ok(await _repository.DeleteReview(reviewId));
         }
     }
 }

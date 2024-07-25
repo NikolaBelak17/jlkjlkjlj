@@ -15,7 +15,7 @@ message GetReviewsRequest {
 
 message GetReviewsResponse {
     message ReviewReply {
-    int32 id = 1;
+    string id = 1;
     string trainerName = 2;
     string comment = 3;
     int32 rating = 4;

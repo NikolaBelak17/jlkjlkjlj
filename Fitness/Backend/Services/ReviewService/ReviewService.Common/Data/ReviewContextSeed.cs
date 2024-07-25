@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using ReviewService.Common.Entities;
 using System;
 using System.Collections.Generic;
@@ -25,35 +26,35 @@ namespace ReviewService.Common.Data
             {
                 new Review()
                 {
-                    Id = 1,
+                    Id = ObjectId.GenerateNewId().ToString(),
                     TrainerName = "John Doe",
                     Comment = "Great strength training session!",
                     Rating = 8
                 },
                 new Review()
                 {
-                    Id = 2,
+                    Id = ObjectId.GenerateNewId().ToString(),
                     TrainerName = "John Doe",
                     Comment = "Loved the yoga class, very relaxing.",
                     Rating = 8
                 },
                 new Review()
                 {
-                    Id = 3,
+                    Id = ObjectId.GenerateNewId().ToString(),
                     TrainerName = "John Doe",
                     Comment = "High intensity workout, perfect for burning calories.",
                     Rating = 10
                 },
                 new Review()
                 {
-                    Id = 4,
+                    Id = ObjectId.GenerateNewId().ToString(),
                     TrainerName = "Jane Smith",
                     Comment = "Good session, but could use more variety.",
                     Rating = 6
                 },
                 new Review()
                 {
-                    Id = 5,
+                    Id = ObjectId.GenerateNewId().ToString(),
                     TrainerName = "Mike Johnson",
                     Comment = "Very knowledgeable instructor.",
                     Rating = 9

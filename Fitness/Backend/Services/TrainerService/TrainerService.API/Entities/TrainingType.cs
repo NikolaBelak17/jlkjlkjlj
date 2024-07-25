@@ -6,10 +6,12 @@ namespace TrainerService.API.Entities
 {
     public class TrainingType
     {
+        [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get; set; }
         public TimeSpan Duration { get; set; }
         public string Difficulty { get; set; }
+
     }
 }
