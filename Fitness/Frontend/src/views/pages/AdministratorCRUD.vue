@@ -9,11 +9,6 @@
                 <CForm>
                   <h1 style="margin-bottom: 10px">{{isAdd ? 'Add trainer':'Update trainer'}}</h1>
 
-                  <CFormLabel v-if="isAdd" for="id" style="display: block;">Id</CFormLabel>
-                  <CInputGroup v-if="isAdd" style="width:70%; margin-bottom: 10px !important">
-                    <CFormInput id="id" v-model="id" placeholder="Please insert trainer ID" />
-                  </CInputGroup>
-
                   <CFormLabel for="name" style="display: block;">Name</CFormLabel>
                   <CInputGroup style="width:70%; margin-bottom: 10px !important">
                     <CFormInput id="name" v-model="name" :disabled="!isAdd" placeholder="Please insert trainer name" />

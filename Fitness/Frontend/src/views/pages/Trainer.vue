@@ -60,7 +60,7 @@
       <h3>Edit Training Type</h3>
       <CFormLabel for="editTrainingTypeDuration" style="display: block;">Duration</CFormLabel>
       <CInputGroup style="width:70%; margin-bottom: 10px !important">
-        <CFormInput id="editTrainingTypeDuration" placeholder="Update training type duration" v-model="trainingTypeToEdit.duration" />
+        <CFormInput id="editTrainingTypeDuration" placeholder="Update training type duration (HH:MM:SS)" v-model="trainingTypeToEdit.duration" />
       </CInputGroup>
       <CFormLabel for="editTrainingTypeDifficulty" style="display: block;">Difficulty</CFormLabel>
       <CInputGroup style="width:70%; margin-bottom: 10px !important">
@@ -76,21 +76,21 @@
     <div class="training-type-section">
       <CButton class="spacing" color="dark" @click="toggleAddTrainingType">Add Training Type</CButton>
       <div v-if="addTrainingType">
-        <CFormLabel for="trainingTypeId" style="display: block;">Id</CFormLabel>
-        <CInputGroup style="width:70%; margin-bottom: 10px !important">
-          <CFormInput id="trainingTypeId" placeholder="Please insert training type id" v-model="trainingType.id" />
-        </CInputGroup>
         <CFormLabel for="trainingTypeName" style="display: block;">Name</CFormLabel>
         <CInputGroup style="width:70%; margin-bottom: 10px !important">
           <CFormInput id="trainingTypeName" placeholder="Please insert training type name" v-model="trainingType.name" />
         </CInputGroup>
         <CFormLabel for="trainingTypeDuration" style="display: block;">Duration</CFormLabel>
         <CInputGroup style="width:70%; margin-bottom: 10px !important">
-          <CFormInput id="trainingTypeDuration" placeholder="Please insert training type duration" v-model="trainingType.duration" />
+          <CFormInput id="trainingTypeDuration" placeholder="Please insert training type duration (HH:MM:SS)" v-model="trainingType.duration" />
         </CInputGroup>
         <CFormLabel for="trainingTypeDifficulty" style="display: block;">Difficulty</CFormLabel>
         <CInputGroup style="width:70%; margin-bottom: 10px !important">
-          <CFormInput id="trainingTypeDifficulty" placeholder="Please insert training type difficulty" v-model="trainingType.difficulty" />
+          <CFormSelect id="trainingTypeDifficulty" v-model="trainingType.difficulty">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </CFormSelect>
         </CInputGroup>
         <CButton class="spacing" color="dark" @click="addType">Add</CButton>
       </div>
@@ -98,7 +98,7 @@
 
     <CButton class="spacing" color="dark" @click="toggleReviews">{{reviewsButtonText}}</CButton>
     <div v-if="showReviews" class="reviews-section">
-      <p><strong>Average Rating:</strong> {{ trainer.averageRating }}</p>
+      <p><strong>Average Rating:</strong> {{ trainer.averageRating.toFixed(1) }}</p>
       <ul>
         <li v-for="review in trainer.reviews" :key="review.comment">
           {{ review.comment }} - Rating: {{ review.rating }}
@@ -251,24 +251,24 @@
         dataServices.methods.upt_trainer(trainer.id, trainer).then(() => {
           this.fetchTrainer();
         });
-        },
-        onDelete(id) {
-            this.openModal().then((result) => {
-                if (result) {
-                    this.deleteTrainingType(id);
-                }
-                this.modalData.isVisible = false;
-                this.modalData.resolve = null;
-                this.modalData.reject = null;
-            });
-        },
-        openModal() {
-            return new Promise((resolve, reject) => {
-                this.modalData.isVisible = true;
-                this.modalData.resolve = resolve;
-                this.modalData.reject = reject;
-            });
-        },
+      },
+      onDelete(id) {
+        this.openModal().then((result) => {
+          if (result) {
+            this.deleteTrainingType(id);
+          }
+          this.modalData.isVisible = false;
+          this.modalData.resolve = null;
+          this.modalData.reject = null;
+        });
+      },
+      openModal() {
+        return new Promise((resolve, reject) => {
+          this.modalData.isVisible = true;
+          this.modalData.resolve = resolve;
+          this.modalData.reject = reject;
+        });
+      },
       toggleReviews() {
         this.showReviews = !this.showReviews;
       }
