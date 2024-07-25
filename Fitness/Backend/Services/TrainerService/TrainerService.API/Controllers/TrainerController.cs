@@ -106,11 +106,19 @@ namespace TrainerService.API.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(Trainer), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateTrainer([FromBody] Trainer trainer)
-        {
-            return Ok(await _repository.UpdateTrainer(trainer));
-        }
+		[ProducesResponseType(typeof(Trainer), StatusCodes.Status200OK)]
+		public async Task<IActionResult> UpdateTrainer([FromBody] Trainer trainer)
+		{
+			foreach (var trainingType in trainer.TrainingTypes)
+			{
+				if (string.IsNullOrEmpty(trainingType.Id) || trainingType.Id == "")
+				{
+					trainingType.Id = ObjectId.GenerateNewId().ToString();
+				}
+			}
+
+			return Ok(await _repository.UpdateTrainer(trainer));
+		}
 
         [HttpDelete("{id}", Name = "DeleteProduct")]
         [ProducesResponseType(typeof(Trainer), StatusCodes.Status200OK)]
