@@ -12,8 +12,10 @@ namespace ClientService.API.Data
             var database = client.GetDatabase("FitDB");
 
             Clients = database.GetCollection<Client>("Clients");
+            Schedules = database.GetCollection<ClientSchedule>("ClientSchedules");
         }
 
         public IMongoCollection<Client> Clients { get; }
+        public IMongoCollection<ClientSchedule> Schedules { get; }
     }
 }
