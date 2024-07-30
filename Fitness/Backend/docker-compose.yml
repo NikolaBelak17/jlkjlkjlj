@@ -3,9 +3,9 @@ services:
     image: mongo
   reviewdb:
     image: mongo
-
   mssql:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+  
 
   trainerservice.api:
     image: ${DOCKER_REGISTRY-}trainerserviceapi
@@ -25,6 +25,7 @@ services:
       context: .
       dockerfile: Services/ReviewService/ReviewService.GRPC/Dockerfile
 
+
   identityserver:
     image: ${DOCKER_REGISTRY-}identityserver
     build:
@@ -34,4 +35,5 @@ services:
 volumes:
   trainermongo_data:
   reviewmongo_data:
-  mssql_data:
+  mssql_data:  
+

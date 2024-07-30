@@ -80,18 +80,21 @@ export default {
       }
       else {
         sessionStorage.setItem('pharmacyToken', 'hardcoded');
-        this.$router.push('/medicines');
         //let loader = this.$loading.show();
-        //dataServices.methods.login(this.username, this.password).then((response) => { 
-        //  sessionStorage.setItem('pharmacyToken', response.data.access_token);
-        //  loader.hide();
-        //  this.$router.push('/medicines');
-        //}, 
-        //() => {
-        //  loader.hide()
-        //  this.wrongAcc = true;
-        //  this.forgotPw = false;
-        //});  
+        dataServices.methods.register('lazar', 'stanojevic', this.username, this.password, 'lazar@gmail.com', '128-345678').then((response) => { 
+            //sessionStorage.setItem('pharmacyToken', response.data.access_token);
+            //loader.hide();
+            //this.$router.push('/medicines');
+            this.$router.push('/medicines');
+            console.log('Uspeo register');
+        }, 
+        () => {
+            //loader.hide()
+            //this.wrongAcc = true;
+            //this.forgotPw = false;
+            this.$router.push('/medicines');
+            console.log('Neuspeo register');
+        });  
       }
     }
   },

@@ -15,17 +15,16 @@ services:
     volumes:
       - reviewmongo_data:/data/db
 
-
   mssql:
     container_name: mssql
     environment:
       - SA_PASSWORD=MATF12345678rs2
-      - ACCEPT_EULA=Y
+      - ACCEPT_EULA=Y 
     restart: always
     ports:
       - "1433:1433"
     volumes:
-      - mssql_data:/var/opt/mssql/data
+      - mssql_data:/var/opt/mssql/data   
 
   trainerservice.api:
     container_name: trainerservice.api
@@ -64,7 +63,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:IdentityConnectionString=Server=mssql;Database=IdentityDb;User Id=sa;Password=MATF12345678rs2;TrustServerCertificate=True;Encrypt=False;"
-    depends_on: 
+    depends_on:
       - mssql
     ports:
       - "4000:80"
+

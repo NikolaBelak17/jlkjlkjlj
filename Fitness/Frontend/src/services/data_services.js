@@ -9,8 +9,19 @@ export default {
             const data = new FormData();
             data.append('username', user);
             data.append('password', pw);
-            data.append('expires_in_hours', 24);
-            return axios.post(url + "api/token", data);              
+            return axios.post("http://localhost:4000/api/v1/authentication/Login", data);              
+        },
+
+        register(firstname, lastname, username, password, email, phonenumber) {
+            const data = new FormData();
+            data.append('firstname', firstname);
+            data.append('lastname', lastname);
+            data.append('username', username);
+            data.append('password', password);
+            data.append('email', email);
+            data.append('phonenumber', phonenumber);
+
+            return axios.post("http://localhost:8080/api/v1/authentication/RegisterClient");
         },
 
         add_medicine(request) {
