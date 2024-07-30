@@ -36,9 +36,9 @@ namespace ReviewService.Common.Repositories
             await _context.Reviews.InsertOneAsync(reviewEntity);
         }
 
-        public async Task<bool> DeleteReview(string trainerName)
+        public async Task<bool> DeleteReview(string reviewId)
         {
-            var deleteResult = await _context.Reviews.DeleteManyAsync(r => r.TrainerName == trainerName);
+            var deleteResult = await _context.Reviews.DeleteManyAsync(r => r.Id == reviewId);
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
 
         }

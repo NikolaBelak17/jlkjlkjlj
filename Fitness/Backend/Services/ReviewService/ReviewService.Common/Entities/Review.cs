@@ -11,8 +11,8 @@ namespace ReviewService.Common.Entities
     public class Review
     {
         [BsonId]
-        [BsonRepresentation(BsonType.Int32)]
-        public int Id;
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id;
         public string TrainerName { get; set; }
         public string Comment { get; set; }
         public int Rating { get; set; }

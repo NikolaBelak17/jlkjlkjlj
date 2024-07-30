@@ -79,7 +79,6 @@ export default {
       return trainingTypes.map(type => type.name).join(', ');
     },
     toggleBio(index) {
-      // Vue 3.x - Directly toggle the array element
       this.isBioExpanded[index] = !this.isBioExpanded[index];
     },
     addTrainer() {

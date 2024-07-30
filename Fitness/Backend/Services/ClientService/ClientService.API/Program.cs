@@ -1,11 +1,12 @@
-using ReviewService.Common.Extentions;
+using ClientService.API.Data;
+using ClientService.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddScoped<IClientContext, ClientContext>();
+builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddControllers();
-builder.Services.AddReviewCommonExtentions();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

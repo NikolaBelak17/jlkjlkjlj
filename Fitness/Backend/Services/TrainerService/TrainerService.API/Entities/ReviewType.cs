@@ -6,8 +6,8 @@ namespace TrainerService.API.Entities
     public class ReviewType
     {
         [BsonId]
-        [BsonRepresentation(BsonType.Int32)]
-        public int Id;
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public string Comment { get; set; }
         public int Rating { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using TrainerService.API.Entities;
 using TrainerService.API.GrpcServices;
 using TrainerService.API.Repositories;
@@ -13,6 +14,7 @@ namespace TrainerService.API.Controllers
         private readonly ITrainerRepository _repository;
         private readonly ReviewGrpcService _reviewGrpcService;
         private readonly IMapper _mapper;
+
 
         public TrainerController(ITrainerRepository repository, ReviewGrpcService reviewGrpcService, IMapper mapper)
         {
@@ -53,14 +55,21 @@ namespace TrainerService.API.Controllers
             }
         }
 
-        /*[Route("[action]/{minRating}")]
+        [Route("[action]/{minRating}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Trainer>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Trainer>>> GetTrainersByRating(int minRating)
+        public async Task<ActionResult<IEnumerable<Trainer>>> GetTrainersByRating(double minRating)
         {
-            var trainers = await _repository.GetTrainersByRating(minRating);
-            return Ok(trainers);
-        }*/
+            var trainers = await _repository.GetTrainers();
+
+            foreach (var trainer in trainers)
+            {
+                var reviews = await _reviewGrpcService.GetReviews(trainer.FullName);
+                trainer.Reviews = _mapper.Map<List<ReviewType>>(reviews.Reviews);
+            }
+            var filteredTrainers = trainers.Where(t => t.AverageRating >= minRating).ToList();
+            return Ok(filteredTrainers);
+        }
 
         [Route("[action]/{trainingType}")]
         [HttpGet]
@@ -79,19 +88,37 @@ namespace TrainerService.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(Trainer), StatusCodes.Status201Created)]
-        public async Task<ActionResult<Trainer>> CreateTrainer(Trainer trainer)
+        public async Task<ActionResult<Trainer>> CreateTrainer([FromBody] Trainer trainer)
         {
+            
+            foreach (var trainingType in trainer.TrainingTypes)
+            {
+                if (string.IsNullOrEmpty(trainingType.Id) || trainingType.Id == "")
+                {
+                    trainingType.Id = ObjectId.GenerateNewId().ToString();
+                }
+            }
+
             await _repository.CreateTrainer(trainer);
+
 
             return CreatedAtRoute("GetTrainer", new { id = trainer.Id }, trainer);
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(Trainer), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateTrainer([FromBody] Trainer trainer)
-        {
-            return Ok(await _repository.UpdateTrainer(trainer));
-        }
+		[ProducesResponseType(typeof(Trainer), StatusCodes.Status200OK)]
+		public async Task<IActionResult> UpdateTrainer([FromBody] Trainer trainer)
+		{
+			foreach (var trainingType in trainer.TrainingTypes)
+			{
+				if (string.IsNullOrEmpty(trainingType.Id) || trainingType.Id == "")
+				{
+					trainingType.Id = ObjectId.GenerateNewId().ToString();
+				}
+			}
+
+			return Ok(await _repository.UpdateTrainer(trainer));
+		}
 
         [HttpDelete("{id}", Name = "DeleteProduct")]
         [ProducesResponseType(typeof(Trainer), StatusCodes.Status200OK)]

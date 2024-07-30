@@ -10,8 +10,6 @@ namespace TrainerService.API.Repositories
 
         Task<IEnumerable<Trainer>> GetTrainersByTrainingType(string trainingTypeName);
 
-        //Task<IEnumerable<Trainer>> GetTrainersByRating(decimal rating);
-
         Task CreateTrainer(Trainer trainer);
 
         Task<bool> UpdateTrainer(Trainer trainer);
