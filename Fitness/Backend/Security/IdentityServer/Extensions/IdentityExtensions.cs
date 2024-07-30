@@ -1,6 +1,6 @@
 ﻿using IdentityServer.Data;
 using IdentityServer.Entities;
-using Microsoft.AspNetCore.Authentication;
+using IdentityServer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
