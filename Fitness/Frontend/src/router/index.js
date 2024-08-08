@@ -87,7 +87,7 @@ router.beforeEach(async (to, from) => {
   if(to.path == '/app/baby_dose_expert_v1.0.apk')
     return true;
 
-  var token = sessionStorage.getItem('pharmacyToken');
+  var token = sessionStorage.getItem('accessToken');
   if ((token && token != 'null') || to.path == '/login') {
     if(to.path == '/') {
       router.push('/medicines');

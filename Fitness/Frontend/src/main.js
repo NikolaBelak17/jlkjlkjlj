@@ -12,14 +12,10 @@ import 'vue-loading-overlay/dist/css/index.css';
 
 import axios  from 'axios'
 
-axios.interceptors.response.use(response => {
-    return response;
- }, error => {
-   if (error.response.status === 401) {
-    router.push('/login');
-   }
-   return error;
- });
+axios.interceptors.response.use(
+  response => response,
+  error => Promise.reject(error)
+);
 
 const app = createApp(App)
 app.use(store)

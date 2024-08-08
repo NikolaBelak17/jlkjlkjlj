@@ -6,10 +6,16 @@ const TRAINERS = "http://localhost:8000";
 export default {
     methods: {
         login(user, pw) {
-            const data = new FormData();
-            data.append('username', user);
-            data.append('password', pw);
-            return axios.post("http://localhost:4000/api/v1/authentication/Login", data);              
+            const data = {
+                username: user,
+                password: pw
+            };
+        
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+
+            return axios.post("http://localhost:4000/api/v1/authentication/Login", data, { headers });              
         },
 
         register(firstname, lastname, username, password, email, phonenumber) {
@@ -22,6 +28,24 @@ export default {
             data.append('phonenumber', phonenumber);
 
             return axios.post("http://localhost:8080/api/v1/authentication/RegisterClient");
+        },
+
+        parse_access_token(access_token) {
+            const at_parts = access_token.split('.');
+            const payload_string = at_parts[1];
+            return JSON.parse(atob(payload_string));
+        },
+
+        save_access_token_data(access_token) {
+            const at_data = this.parse_access_token(access_token);
+
+            const username = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+            const role = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+
+            sessionStorage.setItem('username', at_data[username]);
+            sessionStorage.setItem('role', at_data[role]);
+
+            return at_data[role];
         },
 
         add_medicine(request) {

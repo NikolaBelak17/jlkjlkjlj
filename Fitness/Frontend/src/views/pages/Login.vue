@@ -79,22 +79,33 @@ export default {
         
       }
       else {
-        sessionStorage.setItem('pharmacyToken', 'hardcoded');
-        //let loader = this.$loading.show();
-        dataServices.methods.register('lazar', 'stanojevic', this.username, this.password, 'lazar@gmail.com', '128-345678').then((response) => { 
-            //sessionStorage.setItem('pharmacyToken', response.data.access_token);
-            //loader.hide();
-            //this.$router.push('/medicines');
-            this.$router.push('/medicines');
-            console.log('Uspeo register');
-        }, 
-        () => {
-            //loader.hide()
-            //this.wrongAcc = true;
-            //this.forgotPw = false;
-            this.$router.push('/medicines');
-            console.log('Neuspeo register');
-        });  
+        let loader = this.$loading.show();
+        dataServices.methods.login(this.username, this.password)
+          .then((response) => { 
+            sessionStorage.setItem('accessToken', response.data.accessToken);
+            sessionStorage.setItem('refreshToken', response.data.refreshToken);
+            
+            const role = dataServices.methods.save_access_token_data(response.data.accessToken);
+            console.log(role);
+            if(role == 'Trainer') {
+              this.$router.push('/trainer');
+            }
+            else if(role == 'Admin') {
+              console.log('Rola Admin');
+              this.$router.push('/administrator');
+            }
+            else {
+              this.$router.push('/client');
+            }
+
+            loader.hide();
+            
+            console.log('Uspeo login');
+          })
+          .catch( (error) => {
+            loader.hide();
+            console.log('Neuspeo login!');
+          });  
       }
     }
   },
